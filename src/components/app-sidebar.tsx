@@ -19,43 +19,51 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { getListBots } from "@/actions/get-list-bots";
+import { BotDto } from "@/types/bot.dto";
 
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Your Applications",
-      url: "#",
-      items: [
-        {
-          title: "bot - 1",
-          url: "#",
-        },
-        {
-          title: "add bot",
-          url: "#",
-          isActive: true,
-        },
-      ],
-    },
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
+export async function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const response = await getListBots("123");
+  const bots = response.bots || [];
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const data = {
+    navMain: [
+      {
+        title: "Your Applications",
+        url: "#",
+        items: [
+          ...bots.map((bot: BotDto) => ({
+            title: bot.containerName,
+            url: `/apps/${bot.botId}`,
+            isActive: false,
+          })),
+          {
+            title: "add bot",
+            url: "/add-bot",
+            isActive: false,
+          },
+        ],
+      },
+      {
+        title: "Getting Started",
+        url: "#",
+        items: [
+          {
+            title: "Installation",
+            url: "#",
+            isActive: false,
+          },
+          {
+            title: "Project Structure",
+            url: "#",
+            isActive: false,
+          },
+        ],
+      },
+    ],
+  };
   return (
     <Sidebar variant="floating" {...props}>
       <SidebarHeader>

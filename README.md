@@ -9,6 +9,7 @@ Este dashboard fornece uma interface web para monitorar e controlar bots Discord
 ### Status Atual
 
 **🚧 Desenvolvimento Inicial**
+
 - Layout básico do dashboard com navegação lateral
 - Sistema de componentes shadcn/ui implementado
 - Componentes placeholder para terminal e gerenciamento de bots
@@ -42,17 +43,20 @@ Este dashboard fornece uma interface web para monitorar e controlar bots Discord
 ### Instalação
 
 1. Clone o repositório:
+
 ```bash
 git clone <repository-url>
 cd selfhost-discordbot
 ```
 
 2. Instale as dependências:
+
 ```bash
 bun install
 ```
 
 3. Execute o servidor de desenvolvimento:
+
 ```bash
 bun dev
 ```
@@ -89,12 +93,14 @@ src/
 ## Desenvolvimento
 
 O projeto utiliza:
+
 - **TypeScript**: Tipagem rigorosa em todo o código
 - **Tailwind CSS**: Estilização utility-first com tema customizado
 - **shadcn/ui**: Componentes acessíveis pré-construídos
 - **ESLint**: Qualidade e consistência de código
 
 Desenvolvimento atual foca em:
+
 1. Configurar estrutura básica do dashboard ✅
 2. Implementar gerenciamento de lista de bots (planejado)
 3. Adicionar funcionalidade de terminal (planejado)
@@ -103,12 +109,14 @@ Desenvolvimento atual foca em:
 ## Arquitetura
 
 ### Implementação Atual
+
 - **Layout Global**: `DashboardLayout` envolve todas as páginas via layout raiz
 - **Navegação Lateral**: Sidebar recolhível com estrutura de navegação estática
 - **Sistema de Componentes**: Componentes shadcn/ui com temas consistentes
 - **Design Responsivo**: Layout mobile-friendly com recolhimento da sidebar
 
 ### Arquitetura Planejada
+
 - **Frontend**: Este dashboard Next.js
 - **API Backend**: Serviço separado gerenciando contêineres Docker
 - **Comunicação**: Endpoints REST e conexões WebSocket

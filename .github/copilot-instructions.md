@@ -2,29 +2,30 @@
 
 ## Project Overview
 
-This is a Next.js 15 dashboard for managing self-hosted Discord bots with real-time monitoring and terminal access. The architecture separates the dashboard frontend from a backend API that manages Docker containers running Discord bots.
+This is a Next.js 15 dashboard for managing self-hosted Discord bots. Currently in early development with basic shadcn/ui components and placeholder layouts. The planned architecture will separate the dashboard frontend from a backend API managing Docker containers running Discord bots.
 
-## Key Architecture Components
+## Current State & Architecture
 
-### Dashboard Structure
+### Implemented Components
 
-- **Layout**: Uses `DashboardLayout` component with shadcn/ui sidebar pattern
-- **Sidebar Navigation**: Dynamic bot list fetched from `/api/list-bots` endpoint via SWR
-- **Real-time Components**: Terminal and metrics use WebSocket connections to backend API
+- **Root Layout**: `src/app/layout.tsx` wraps entire app in `DashboardLayout` with theme provider
+- **Dashboard Layout**: `src/components/dashboard-layout.tsx` implements shadcn/ui sidebar pattern
+- **Sidebar**: `src/components/app-sidebar.tsx` with static navigation structure and collapsible sections
+- **UI Components**: shadcn/ui components in `src/components/ui/` (sidebar, breadcrumb, button, etc.)
 
-### External API Integration
+### Key Implementation Details
 
-- **Backend API**: Communicates with separate API server via `NEXT_PUBLIC_API_HOST` environment variable
-- **Bot Management**: `/api/list-bots` returns `{bots: [{containerName, botId}]}`
-- **WebSocket Endpoints**:
-  - `/api/ws-terminal?botId=X` for terminal access
-  - `/api/ws-metrics?botId=X` for real-time resource monitoring
+- **Global Layout Strategy**: `DashboardLayout` wraps all pages via root layout, not per-page basis
+- **Sidebar Structure**: Uses `SidebarProvider > AppSidebar + SidebarInset` pattern with trigger and breadcrumbs
+- **Static Data**: Current sidebar uses hardcoded data object, ready for dynamic bot list integration
+- **Empty Components**: `terminal.tsx` and `terminal-new.tsx` exist but are empty placeholders
 
-### Component Patterns
+### Future Integration Points
 
-- **Client-Only Components**: Terminal uses dynamic imports and `isClient` state for xterm.js
-- **Error Boundaries**: WebSocket connections include proper cleanup and error handling
-- **Responsive Design**: Sidebar collapses to icon-only on smaller screens
+- **Backend API**: Will communicate via `NEXT_PUBLIC_API_HOST` environment variable
+- **Bot Management**: API endpoint `/api/list-bots` returning `{bots: [{containerName, botId}]}`
+- **WebSocket Endpoints**: Planned for `/api/ws-terminal?botId=X` and `/api/ws-metrics?botId=X`
+- **Real-time Components**: Terminal will use xterm.js with dynamic imports and client-side state
 
 ## Development Workflows
 
@@ -34,13 +35,31 @@ This is a Next.js 15 dashboard for managing self-hosted Discord bots with real-t
 bun dev          # Development server with Turbopack
 bun build        # Production build with Turbopack
 bun start        # Production server
+bun lint         # ESLint checking
 ```
 
-### Environment Setup
+### Project Structure
 
-- Configure `NEXT_PUBLIC_API_HOST` for backend API communication
-- Backend API must support CORS for dashboard communication
-- WebSocket endpoints require upgrade-capable server
+```
+src/app/                 # Next.js 15 App Router
+├── layout.tsx          # Root layout with DashboardLayout wrapper
+├── page.tsx            # Home page (minimal placeholder)
+├── globals.css         # Tailwind CSS with custom theme variables
+└── dashboard/page.tsx  # Dashboard page (duplicate sidebar layout - needs refactoring)
+
+src/components/
+├── dashboard-layout.tsx    # Main layout with SidebarProvider
+├── app-sidebar.tsx        # Sidebar with hardcoded navigation data
+├── terminal*.tsx          # Empty placeholder files for future terminal
+└── ui/                    # shadcn/ui components
+```
+
+### Current Configuration
+
+- **Build Tool**: Turbopack enabled for both dev and build
+- **Styling**: Tailwind CSS v4 with "new-york" shadcn/ui style preset
+- **Theme**: Custom OKLCH color system with CSS variables for light/dark modes
+- **TypeScript**: Strict mode with path mapping (`@/*` → `./src/*`)
 
 ## Project-Specific Conventions
 
@@ -94,6 +113,12 @@ const ws = new WebSocket(`${protocol}://${API_HOST}/api/endpoint`);
 ```
 
 ## Coding Standards
+
+### STRICT REQUIREMENTS - MUST BE FOLLOWED
+
+- **TypeScript ONLY**: All code generation MUST use TypeScript (.tsx/.ts files) - NO JavaScript allowed
+- **NO Development Server Testing**: NEVER suggest or use `bun dev`, `bun run dev`, or any development server commands to test code
+- **Static Code Validation**: Use TypeScript compiler and ESLint for validation, not runtime testing
 
 ### TypeScript Requirements
 
