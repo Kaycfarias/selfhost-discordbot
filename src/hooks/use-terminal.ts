@@ -3,7 +3,10 @@ import { useXTerm } from "react-xtermjs";
 import { FitAddon } from "@xterm/addon-fit";
 import { ConnectionStatus, TerminalInstance } from "@/types/terminal.types";
 import { SYSTEM_MESSAGE_INDICATORS } from "@/constants/terminal.constants";
-import { formatCurrentDateTime, processColorCodes } from "@/utils/terminal.utils";
+import {
+  formatCurrentDateTime,
+  processColorCodes,
+} from "@/utils/terminal.utils";
 import { processTerminalDataWithDateTime } from "@/services/terminal-processor.service";
 import {
   buildWebSocketUrl,
@@ -49,7 +52,7 @@ export function useTerminalWebSocket(
     }
 
     connectToBot(
-      buildWebSocketUrl(apiUrl, botId),
+      buildWebSocketUrl(`${apiUrl}/api/ws-terminal?botId=${botId}`),
       instance,
       wsRef,
       setConnectionStatus

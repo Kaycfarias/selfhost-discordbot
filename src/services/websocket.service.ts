@@ -10,10 +10,10 @@ export function decodeWebSocketData(data: string | ArrayBuffer): string {
 /**
  * Constrói a URL do WebSocket baseada no protocolo da página atual
  */
-export function buildWebSocketUrl(apiUrl: string, botId: string): string {
+export function buildWebSocketUrl(apiUrl: string): string {
   const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
   const cleanApiUrl = apiUrl.replace(/^https?:\/\//, "");
-  return `${protocol}//${cleanApiUrl}/api/ws-terminal?botId=${botId}`;
+  return `${protocol}//${cleanApiUrl}`;
 }
 
 /**
