@@ -13,7 +13,7 @@ src/
 │   └── use-terminal.ts                        # Hooks personalizados
 ├── services/
 │   ├── terminal-processor.service.ts          # Processamento de dados
-│   └── websocket.service.ts                   # Utilitários WebSocket
+│   └── websocket-client.ts                    # Utilitários WebSocket
 ├── utils/
 │   ├── terminal.utils.ts                      # Utilitários de formatação
 │   └── index.ts                               # Re-exports
@@ -92,7 +92,7 @@ interface ProcessorConfig {
 - `processLineTimestamp()`: Processa linha individual
 - `normalizeLineBreaks()`: Normaliza quebras de linha
 
-### `websocket.service.ts`
+### `websocket-client.ts`
 
 **Serviços WebSocket**
 
@@ -360,7 +360,7 @@ ws.onmessage = (event) => {
    ↓ (usa TERMINAL_STYLES constants)
 2. use-terminal.ts (lógica + color codes)
    ↓ (chama services com formatação)
-3. websocket.service.ts → terminal-processor.service.ts (com timestamps coloridos)
+3. websocket-client.ts → terminal-processor.service.ts (com timestamps coloridos)
    ↓ (usa utils para color/timestamp)
 4. terminal.utils.ts (processColorCodes + formatação)
 ```

@@ -2,21 +2,26 @@ import { buildWebSocketUrl } from "@/utils";
 import { useEffect, useState } from "react";
 
 interface BotStats {
+  botId: string;
+  timestamp: string;
   cpuPercent: string;
   memoryUsage: number;
   memoryLimit: number;
   memoryPercent: string;
+  networkRx: number;
+  networkTx: number;
   status: string;
+  uptime: string;
 }
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export function UseConnectToBot(botId: string) {
-  const [stats, setStats] = useState<BotStats | null>(null);
+  const [botStats, setBotStats] = useState<BotStats | null>(null);
   useEffect(() => {
     if (!botId) return;
 
-    setStats(null);
+    setBotStats(null);
 
     const ws = new WebSocket(
       buildWebSocketUrl(`${apiUrl!}/api/ws-metrics?botId=${botId}`)
@@ -29,7 +34,7 @@ export function UseConnectToBot(botId: string) {
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        setStats(data);
+        setBotStats(data);
       } catch {
         console.error("Erro ao parsear dados do WebSocket");
       }
@@ -47,5 +52,5 @@ export function UseConnectToBot(botId: string) {
       ws.close();
     };
   }, [botId]);
-  return stats;
+  return botStats;
 }

@@ -7,10 +7,10 @@ import {
   formatLineWithExtractedDateTime,
   formatLineWithCurrentTime,
   formatLineWithCurrentDateTime,
-} from "@/utils/terminal.utils";
+} from "@/utils/terminal-utils";
 
 // Tipos para configuração de processamento
-export type TimestampMode = 'time-only' | 'full-datetime';
+export type TimestampMode = "time-only" | "full-datetime";
 
 export interface ProcessorConfig {
   timestampMode: TimestampMode;
@@ -19,7 +19,7 @@ export interface ProcessorConfig {
 
 // Configuração padrão
 const DEFAULT_CONFIG: ProcessorConfig = {
-  timestampMode: 'time-only',
+  timestampMode: "time-only",
   showSystemDateTime: false,
 };
 
@@ -33,14 +33,17 @@ export function normalizeLineBreaks(data: string): string {
 /**
  * Processa uma linha individual para adicionar timestamp quando necessário
  */
-export function processLineTimestamp(line: string, config: ProcessorConfig = DEFAULT_CONFIG): string {
+export function processLineTimestamp(
+  line: string,
+  config: ProcessorConfig = DEFAULT_CONFIG
+): string {
   if (isEmptyLine(line) || hasFormattedTimestamp(line)) {
     return line;
   }
 
   const isoTimestamp = extractIsoTimestamp(line);
   if (isoTimestamp) {
-    return config.timestampMode === 'full-datetime'
+    return config.timestampMode === "full-datetime"
       ? formatLineWithExtractedDateTime(line, isoTimestamp)
       : formatLineWithExtractedTimestamp(line, isoTimestamp);
   }
@@ -58,16 +61,24 @@ export function processLineTimestamp(line: string, config: ProcessorConfig = DEF
 /**
  * Processa todas as linhas de dados do terminal para adicionar timestamps
  */
-export function processTimestamps(data: string, config: ProcessorConfig = DEFAULT_CONFIG): string {
+export function processTimestamps(
+  data: string,
+  config: ProcessorConfig = DEFAULT_CONFIG
+): string {
   const lines = data.split("\r\n");
-  const processedLines = lines.map(line => processLineTimestamp(line, config));
+  const processedLines = lines.map((line) =>
+    processLineTimestamp(line, config)
+  );
   return processedLines.join("\r\n");
 }
 
 /**
  * Processa dados completos do terminal: normalização + timestamps
  */
-export function processTerminalData(data: string, config: ProcessorConfig = DEFAULT_CONFIG): string {
+export function processTerminalData(
+  data: string,
+  config: ProcessorConfig = DEFAULT_CONFIG
+): string {
   const normalizedData = normalizeLineBreaks(data);
   return processTimestamps(normalizedData, config);
 }
@@ -77,7 +88,7 @@ export function processTerminalData(data: string, config: ProcessorConfig = DEFA
  */
 export function processTerminalDataWithDateTime(data: string): string {
   return processTerminalData(data, {
-    timestampMode: 'full-datetime',
+    timestampMode: "full-datetime",
     showSystemDateTime: true,
   });
 }
@@ -87,7 +98,7 @@ export function processTerminalDataWithDateTime(data: string): string {
  */
 export function processTerminalDataWithTimeOnly(data: string): string {
   return processTerminalData(data, {
-    timestampMode: 'time-only',
+    timestampMode: "time-only",
     showSystemDateTime: false,
   });
 }

@@ -6,13 +6,13 @@ import { SYSTEM_MESSAGE_INDICATORS } from "@/constants/terminal.constants";
 import {
   formatCurrentDateTime,
   processColorCodes,
-} from "@/utils/terminal.utils";
-import { processTerminalDataWithDateTime } from "@/services/terminal-processor.service";
+} from "@/utils/terminal-utils";
+import { processTerminalDataWithDateTime } from "@/services/terminal-processor-service";
 import {
   buildWebSocketUrl,
   decodeWebSocketData,
   isWebSocketReady,
-} from "@/services/websocket.service";
+} from "@/services/websocket-client";
 
 export function useTerminalResize(instance: TerminalInstance | null) {
   useEffect(() => {

@@ -65,7 +65,7 @@ export async function AppSidebar({
     ],
   };
   return (
-    <Sidebar variant="floating" {...props}>
+    <Sidebar {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>

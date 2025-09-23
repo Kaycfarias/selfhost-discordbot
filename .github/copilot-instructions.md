@@ -120,6 +120,16 @@ const ws = new WebSocket(`${protocol}://${API_HOST}/api/endpoint`);
 - **NO Development Server Testing**: NEVER suggest or use `bun dev`, `bun run dev`, or any development server commands to test code
 - **Static Code Validation**: Use TypeScript compiler and ESLint for validation, not runtime testing
 
+### File Naming Conventions
+
+- **Service Files**: Use kebab-case pattern: `service-name.ts` (e.g., `websocket-client.ts`, `terminal-processor.ts`)
+- **Component Files**: Use kebab-case: `component-name.tsx` (e.g., `app-sidebar.tsx`, `connection-status-indicator.tsx`)
+- **Hook Files**: Use kebab-case with `use-` prefix: `use-hook-name.ts` (e.g., `use-terminal.ts`, `use-mobile.ts`)
+- **Utility Files**: Use kebab-case with descriptive names: `feature-name.utils.ts` (e.g., `terminal.utils.ts`)
+- **Type Files**: Use kebab-case with `.types.ts` suffix: `feature-name.types.ts` (e.g., `terminal.types.ts`, `bot.dto.ts`)
+- **Constants**: Use kebab-case with `.constants.ts` suffix: `feature-name.constants.ts` (e.g., `terminal.constants.ts`)
+- **All Files**: Use kebab-case consistently to maintain uniformity and avoid IDE confusion
+
 ### TypeScript Requirements
 
 - **Always use TypeScript**: All new code must be written in TypeScript (.tsx/.ts files)
