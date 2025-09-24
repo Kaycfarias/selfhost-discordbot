@@ -10,7 +10,7 @@ export function ConnectionStatusIndicator({
     connecting: { text: "🔄 Conectando...", show: true },
     error: { text: "❌ Erro", show: true },
     closed: { text: "🔌 Desconectado", show: true },
-    connected: { text: "", show: false },
+    connected: { text: "✅ Conectado", show: true },
   };
 
   const config = statusConfig[status];

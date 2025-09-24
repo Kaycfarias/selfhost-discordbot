@@ -69,6 +69,20 @@ export function useTerminal(botId: string) {
   const [status, setStatus] = useState<ConnectionStatus>("connecting");
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+  if (instance) {
+    instance.options.fontFamily = "Fira Code, Courier New, monospace";
+    instance.options.fontSize = 16;
+    const newTheme = instance.options.theme;
+    if (newTheme) {
+      newTheme.background = "#1e1e1e";
+      newTheme.cursor = "#ffffff";
+      newTheme.foreground = "#fefefe";
+
+      instance.options.theme = { ...newTheme };
+    }
+    instance.blur();
+  }
+
   useTerminalResize(instance);
   useTerminalWebSocket(instance, apiUrl, botId, setStatus);
 
