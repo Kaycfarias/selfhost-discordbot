@@ -11,11 +11,12 @@ interface ProgressBarProps {
 const ProgressBar = ({
   value,
   height = 8,
-  animated = true,
+  animated = false,
   className,
   barColor = "bg-indigo-600",
 }: ProgressBarProps) => {
   const safeValue = Math.min(100, Math.max(0, value));
+
   return (
     <div
       className={cn(
@@ -31,16 +32,13 @@ const ProgressBar = ({
     >
       <div
         className={cn(
-          `h-full rounded-lg transition-all duration-400 ease-out ${barColor}`
+          "h-full rounded-lg transition-all duration-500 ease-out",
+          barColor,
+          animated && "progress-bar-animated"
         )}
         style={{
           width: `${safeValue}%`,
           boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-          backgroundSize: "40px 40px",
-          backgroundImage:
-            "linear-gradient(45deg, rgba(255,255,255,0.08) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.08) 75%, transparent 75%, transparent)",
-          animation: animated ? "stripe 1s linear infinite" : undefined,
-          transition: "width 400ms ease",
         }}
       />
     </div>
