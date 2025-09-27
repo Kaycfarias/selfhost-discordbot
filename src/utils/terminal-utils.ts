@@ -9,8 +9,6 @@ import {
   DATETIME_WITH_MS_REGEX,
 } from "@/constants/terminal.constants";
 
-
-
 /**
  * Formata o horário atual no padrão brasileiro HH:mm:ss
  */
@@ -120,7 +118,7 @@ export function formatLineWithExtractedDateTime(
 ): string {
   const dateTime = extractDateTimeFromTimestamp(isoTimestamp);
   const cleanLine = line.replace(isoTimestamp, "").trim();
-  const coloredTimestamp = processColorCodes(dateTime, "gray");
+  const coloredTimestamp = processColorCodes(dateTime, "gray", "black");
   return `${coloredTimestamp} ${cleanLine}`;
 }
 
@@ -140,29 +138,34 @@ export function formatLineWithCurrentDateTime(line: string): string {
   return `[${currentDateTime}] ${line}`;
 }
 
+const colors = {
+  black: 30,
+  red: 31,
+  green: 32,
+  yellow: 33,
+  blue: 34,
+  magenta: 35,
+  cyan: 36,
+  white: 37,
+  gray: 90,
+};
+
+const bgColors = {
+  black: 40,
+  red: 41,
+  green: 42,
+  yellow: 43,
+  blue: 44,
+  magenta: 45,
+  cyan: 46,
+  white: 47,
+  gray: 100, // bright background gray
+};
+
 export function processColorCodes(
   text: string,
-  color:
-    | "black"
-    | "red"
-    | "green"
-    | "yellow"
-    | "blue"
-    | "magenta"
-    | "cyan"
-    | "white"
-    | "gray"
+  foreground: keyof typeof colors,
+  background: keyof typeof colors
 ): string {
-  const colorCodes: Record<string, string> = {
-    black: "\x1b[30m",
-    red: "\x1b[31m",
-    green: "\x1b[32m",
-    yellow: "\x1b[33m",
-    blue: "\x1b[34m",
-    magenta: "\x1b[35m",
-    cyan: "\x1b[36m",
-    white: "\x1b[37m",
-    gray: "\x1b[90m",
-  };
-  return `${colorCodes[color]}${text}\x1b[0m`;
+  return `\x1b[1;${colors[foreground]};${bgColors[background]}m ${text}\x1b[0m`;
 }

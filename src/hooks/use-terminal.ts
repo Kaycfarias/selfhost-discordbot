@@ -95,7 +95,7 @@ export function useTerminal(botId: string) {
 
 function writeSystemMessage(instance: TerminalInstance, message: string) {
   const timestamp = formatCurrentDateTime();
-  const coloredTimestamp = processColorCodes(timestamp, "gray");
+  const coloredTimestamp = processColorCodes(timestamp, "gray", "white");
   instance.writeln(`${coloredTimestamp} ${message}`);
 }
 
