@@ -24,14 +24,14 @@ const MetricCard = ({
   return (
     <div
       className={cn(
-        "w-full p-3 space-y-2 bg-card border rounded-sm",
+        "w-full p-2 space-y-1 bg-card border rounded-sm",
         className
       )}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Icon className={`h-5 w-5 ${iconColor}`} />
-          <span className="text-sm font-medium">{label}</span>
+          <span className="text-sm font-medium text-muted-foreground">{label}</span>
         </div>
         <div className="text-right">
           <div className="text-lg font-bold">

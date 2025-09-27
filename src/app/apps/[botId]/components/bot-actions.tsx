@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 
 const BotActions = () => {
   return (
-    <div className="space-x-4">
-      <Button variant={"outline"}>
+    <div className="flex space-x-1">
+      <Button variant={"outline"} >
         <Play color="oklch(72.3% 0.219 149.579)" />{" "}
         <p className="text-green-500">Start</p>
       </Button>

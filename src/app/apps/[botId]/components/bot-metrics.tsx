@@ -1,22 +1,23 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { UseConnectToBot } from "@/hooks/use-bot-status";
-import { Card } from "@/components/ui/card";
 
 import { cn } from "@/lib/utils";
 import CpuUsageBar from "./cpu-usage-bar";
 import RamUsageBar from "./ram-usage-bar";
+import BotStatus from "./bot-status";
 
 interface BotStatsProps {
   botId: string;
   className?: string;
 }
 
-const BotStatus = ({ botId, className }: BotStatsProps) => {
+const BotMetrics = ({ botId, className }: BotStatsProps) => {
   const botStats = UseConnectToBot(botId);
   return (
-    <Card className={cn(`rounded-xl`, className)}>
+    <div className={cn(`rounded-xl space-y-1`, className)}>
       {botStats ? (
         <>
+          <BotStatus status={botStats.status} uptime={botStats.uptime} />
           <CpuUsageBar cpuPercent={Number(botStats.cpuPercent)} />
 
           <RamUsageBar
@@ -28,8 +29,8 @@ const BotStatus = ({ botId, className }: BotStatsProps) => {
       ) : (
         <Skeleton className="h-full w-full" />
       )}
-    </Card>
+    </div>
   );
 };
 
-export default BotStatus;
+export default BotMetrics;
