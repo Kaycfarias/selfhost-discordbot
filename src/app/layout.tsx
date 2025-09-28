@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import DashboardLayout from "@/components/dashboard-layout";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { Check, LoaderCircle } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +31,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster
+          richColors
+          position="top-right"
+          icons={{
+            loading: <LoaderCircle className="animate-spin" />,
+            success: <Check />,
+          }}
+        />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <DashboardLayout>{children}</DashboardLayout>
         </ThemeProvider>

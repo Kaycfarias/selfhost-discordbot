@@ -1,19 +1,22 @@
 import stopBot from "@/actions/stop-bot";
 import { Button } from "@/components/ui/button";
+import { BotStatuses } from "@/types/bot.dto";
 import { Octagon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 interface BotStopButtonProps {
-  botStatus?: string;
-  botId?: string;
+  botStatus: BotStatuses | undefined;
+  botId: string | undefined;
 }
 
 const BotStopButton = ({ botStatus, botId }: BotStopButtonProps) => {
-  const [isPending, setIsPending] = useState(botStatus !== "running");
+  const [isPending, setIsPending] = useState(botStatus === "running");
+
   const handleStop = async () => {
     setIsPending(true);
-    const myPromise = new Promise(async (resolve, reject) => {
+    const stoppingBot = new Promise(async (resolve, reject) => {
+      console.log(botStatus);
       if (!botId) return;
       const response = await stopBot({ botId });
       if (response.ok) {
@@ -21,10 +24,10 @@ const BotStopButton = ({ botStatus, botId }: BotStopButtonProps) => {
       } else {
         reject(response);
       }
+      setIsPending(false);
     });
-    setIsPending(botStatus !== "running");
 
-    toast.promise(myPromise, {
+    toast.promise(stoppingBot, {
       loading: "Stopping bot...",
       success: "Bot stopped successfully!",
       error: (err) => `Error stopping bot: ${err}`,
@@ -33,7 +36,7 @@ const BotStopButton = ({ botStatus, botId }: BotStopButtonProps) => {
   return (
     <Button
       variant={"outline"}
-      disabled={isPending || botStatus === "running"}
+      disabled={isPending || botStatus !== "running"}
       onClick={() => {
         handleStop();
       }}

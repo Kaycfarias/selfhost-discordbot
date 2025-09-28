@@ -22,7 +22,7 @@ export interface ListBotsRequestDto {
 /**
  * Status possíveis dos bots
  */
-export const BOT_STATES = {
+export const BOT_STATUSES = {
   RUNNING: "running",
   STOPPED: "stopped",
   RESTARTING: "restarting",
@@ -30,4 +30,21 @@ export const BOT_STATES = {
   EXITED: "exited",
 } as const;
 
-export type BotState = (typeof BOT_STATES)[keyof typeof BOT_STATES];
+export type BotStatuses = (typeof BOT_STATUSES)[keyof typeof BOT_STATUSES];
+
+export interface BotMetricsType {
+  botId: string;
+  timestamp: string;
+  cpuPercent: string;
+  memoryUsage: number;
+  memoryLimit: number;
+  memoryPercent: string;
+  networkRx: number;
+  networkTx: number;
+  status: BotStatuses;
+  running: boolean;
+  restarting: boolean;
+  paused: boolean;
+  uptime: string;
+  restartCount: number;
+}
