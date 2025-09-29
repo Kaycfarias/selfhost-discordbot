@@ -1,17 +1,15 @@
-import { Play } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
 import BotStopButton from "./bot-stop-button";
 import { BotMetricsType } from "@/types/bot.dto";
 import BotRestartButton from "./bot-restart-button";
+import BotStartButton from "./bot-start-button";
 
 const BotActions = ({ botMetrics }: { botMetrics: BotMetricsType | null }) => {
   return (
     <div className="flex space-x-1">
-      <Button variant={"outline"}>
-        <Play color="oklch(72.3% 0.219 149.579)" />{" "}
-        <p className="text-green-500">Start</p>
-      </Button>
+      <BotStartButton
+        botStatus={botMetrics?.status}
+        botId={botMetrics?.botId}
+      />
       <BotRestartButton
         botStatus={botMetrics?.status}
         botId={botMetrics?.botId}

@@ -1,8 +1,8 @@
 import DotIcon from "@/components/ui/dot-icon";
 
 interface BotStatusProps {
-  status: string;
   uptime: string;
+  status: string;
 }
 
 const BotStatus = ({ status, uptime }: BotStatusProps) => {
@@ -22,7 +22,7 @@ const BotStatus = ({ status, uptime }: BotStatusProps) => {
           {status}
         </p>
       </div>
-      <p className="text-md text-muted-foreground">Uptime: {uptime}</p>
+      <p className="text-md text-right text-muted-foreground">Uptime: {uptime}</p>
     </div>
   );
 };

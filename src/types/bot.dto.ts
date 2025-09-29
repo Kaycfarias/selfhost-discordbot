@@ -45,6 +45,8 @@ export interface BotMetricsType {
   running: boolean;
   restarting: boolean;
   paused: boolean;
+  startedAt: string;
+  finishedAt: string;
   uptime: string;
   restartCount: number;
 }

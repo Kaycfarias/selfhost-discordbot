@@ -11,12 +11,11 @@ interface BotStopButtonProps {
 }
 
 const BotStopButton = ({ botStatus, botId }: BotStopButtonProps) => {
-  const [isPending, setIsPending] = useState(botStatus === "running");
+  const [isPending, setIsPending] = useState(false);
 
   const handleStop = async () => {
     setIsPending(true);
     const stoppingBot = new Promise(async (resolve, reject) => {
-      console.log(botStatus);
       if (!botId) return;
       const response = await stopBot({ botId });
       if (response.ok) {
