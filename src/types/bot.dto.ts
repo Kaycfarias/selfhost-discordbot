@@ -24,8 +24,6 @@ export interface ListBotsRequestDto {
  */
 export const BOT_STATUSES = {
   RUNNING: "running",
-  STOPPED: "stopped",
-  RESTARTING: "restarting",
   PAUSED: "paused",
   EXITED: "exited",
 } as const;

@@ -2,28 +2,35 @@ import restartBot from "@/actions/restart-bot";
 import { Button } from "@/components/ui/button";
 import { BotStatuses } from "@/types/bot.dto";
 import { RotateCcw } from "lucide-react";
-import { useState } from "react";
 import { toast } from "sonner";
 
 interface BotStopButtonProps {
   botStatus: BotStatuses | undefined;
   botId: string | undefined;
+  pending: {
+    value: string | undefined;
+    setValue: (val: React.SetStateAction<string | undefined>) => void;
+  };
 }
 
-const BotRestartButton = ({ botStatus, botId }: BotStopButtonProps) => {
-  const [isPending, setIsPending] = useState(false);
-
+const BotRestartButton = ({
+  botStatus,
+  botId,
+  pending,
+}: BotStopButtonProps) => {
+  const pendingStates = new Set(["starting", "restarting", "stopping"]);
   const handleRestart = async () => {
-    setIsPending(true);
+    pending.setValue("restarting");
     const restartingBot = new Promise(async (resolve, reject) => {
       if (!botId) return;
       const response = await restartBot({ botId });
       if (response.ok) {
         resolve(response);
+        pending.setValue("running");
       } else {
         reject(response);
+        pending.setValue(botStatus);
       }
-      setIsPending(false);
     });
     toast.promise(restartingBot, {
       loading: "Restarting bot...",
@@ -35,9 +42,12 @@ const BotRestartButton = ({ botStatus, botId }: BotStopButtonProps) => {
     <Button
       variant={"outline"}
       onClick={() => handleRestart()}
-      disabled={isPending || botStatus !== "running"}
+      disabled={pendingStates.has(pending.value!) || botStatus !== "running"}
     >
-      <RotateCcw color="oklch(62.3% 0.214 259.815)" />{" "}
+      <RotateCcw
+        className={pending.value === "restarting" ? "animate-spin" : ""}
+        color="oklch(62.3% 0.214 259.815)"
+      />{" "}
       <p className="text-blue-500">Restart</p>
     </Button>
   );

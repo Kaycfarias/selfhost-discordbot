@@ -2,28 +2,32 @@ import stopBot from "@/actions/stop-bot";
 import { Button } from "@/components/ui/button";
 import { BotStatuses } from "@/types/bot.dto";
 import { Octagon } from "lucide-react";
-import { useState } from "react";
 import { toast } from "sonner";
 
 interface BotStopButtonProps {
   botStatus: BotStatuses | undefined;
   botId: string | undefined;
+  pending: {
+    value: string | undefined;
+    setValue: (val: React.SetStateAction<string | undefined>) => void;
+  };
 }
 
-const BotStopButton = ({ botStatus, botId }: BotStopButtonProps) => {
-  const [isPending, setIsPending] = useState(false);
+const BotStopButton = ({ botStatus, botId, pending }: BotStopButtonProps) => {
+  const pendingStates = new Set(["starting", "restarting", "stopping"]);
 
   const handleStop = async () => {
-    setIsPending(true);
+    pending.setValue("stopping");
     const stoppingBot = new Promise(async (resolve, reject) => {
       if (!botId) return;
       const response = await stopBot({ botId });
       if (response.ok) {
         resolve(response);
+        pending.setValue("exited");
       } else {
         reject(response);
+        pending.setValue(botStatus);
       }
-      setIsPending(false);
     });
 
     toast.promise(stoppingBot, {
@@ -35,12 +39,15 @@ const BotStopButton = ({ botStatus, botId }: BotStopButtonProps) => {
   return (
     <Button
       variant={"outline"}
-      disabled={isPending || botStatus !== "running"}
+      disabled={pendingStates.has(pending.value!) || botStatus !== "running"}
       onClick={() => {
         handleStop();
       }}
     >
-      <Octagon color="oklch(63.7% 0.237 25.331)" />{" "}
+      <Octagon
+        className={pending.value === "stopping" ? "animate-spin" : ""}
+        color="oklch(63.7% 0.237 25.331)"
+      />{" "}
       <p className="text-red-500">Stop</p>
     </Button>
   );

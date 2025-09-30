@@ -13,7 +13,6 @@ const TerminalOutput = dynamic(() => import("@/components/terminal"), {
 const BotPage = () => {
   const { botId } = useParams();
   const botMetrics = UseConnectToBot(botId as string);
-  console.log(botMetrics?.paused, botMetrics?.restarting);
   return (
     <div className="container mx-auto flex flex-1 flex-col gap-4 p-4">
       <div className="grid auto-rows-min gap-4 md:grid-cols-2">
