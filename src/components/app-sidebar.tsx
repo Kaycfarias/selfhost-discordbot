@@ -41,7 +41,7 @@ export async function AppSidebar({
           })),
           {
             title: "add bot",
-            url: "/add-bot",
+            url: "/apps/add-app",
             isActive: false,
           },
         ],
