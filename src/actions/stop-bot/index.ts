@@ -1,3 +1,5 @@
+"use server";
+
 interface StopBotProps {
   botId: string;
 }

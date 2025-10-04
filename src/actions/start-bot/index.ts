@@ -1,3 +1,5 @@
+"use server";
+
 interface StartBotProps {
   botId: string;
 }

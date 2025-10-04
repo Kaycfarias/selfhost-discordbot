@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Code, X } from "lucide-react";
-import { EnvVariable } from "../../../../types/form.types";
+import { EnvVariable } from "../../../../../types/form.types";
 
 interface EnvironmentVariableListProps {
   envVariables: EnvVariable[];

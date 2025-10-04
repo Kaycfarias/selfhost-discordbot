@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { mutate } from "swr";
 
 import { BotUploadFormData, botUploadFormSchema } from "@/types/form.types";
 import uploadBot from "@/actions/upload-bot";
@@ -28,12 +29,40 @@ export const useBotUploadForm = (): UseBotUploadFormReturn => {
 
   const handleSubmit = async (data: BotUploadFormData): Promise<void> => {
     try {
-      const res = await uploadBot(data);
+      // Incluir as variáveis de ambiente no envio
+      const dataWithEnvVars = {
+        ...data,
+        envVariables: environmentVariables.envs,
+      };
+
+      console.log("Dados sendo enviados:", {
+        botName: dataWithEnvVars.botName,
+        botDescription: dataWithEnvVars.botDescription,
+        envVariables: dataWithEnvVars.envVariables,
+        hasFile: !!dataWithEnvVars.botFile,
+        fileName: dataWithEnvVars.botFile?.name,
+      });
+
+      const res = await uploadBot(dataWithEnvVars);
+
       if (res.ok) {
+        // Atualizar cache do SWR após upload bem-sucedido
+        const userID = "123"; // TODO: Pegar do contexto de autenticação
+        await mutate(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/list-bots?userId=${userID}`
+        );
+
         alert("Bot enviado com sucesso!");
+
+        // Reset form após sucesso
+        form.reset();
+        environmentVariables.resetAllEnvironmentVariables();
+      } else {
+        alert(`Erro no upload: ${res.error || "Erro desconhecido"}`);
       }
     } catch (err) {
       console.log("Erro desconhecido:", err);
+      alert("Erro de conexão. Tente novamente.");
     }
   };
 
